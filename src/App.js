@@ -12,6 +12,7 @@ function App() {
 
   const hidePage = (val) => {
     if(val === 'block') {
+      console.log(val)
       if(!showMenuDesktop) {
         setShowMenuDesktop(true)
         setShowMenu('hidden')
