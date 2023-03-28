@@ -4,23 +4,19 @@ import Header from "./components/header/Header.js"
 import Home from "./pages/Home.js"
 
 function App() {
-  const [showMenuDesktop, setShowMenuDesktop] = useState(false)
-  const [marginPixel, setMarginPixel] = useState(295)
+  const [showMenuDesktop, setShowMenuDesktop] = useState(true)
   const [widthScreen, setWidthScreen] =  useState(window.innerWidth)
   const [showPage, setShowPage] = useState('')
   const [showMenu, setShowMenu] = useState('')
 
   const hidePage = (val) => {
     if(val === 'block') {
-      console.log(val)
       if(!showMenuDesktop) {
         setShowMenuDesktop(true)
-        setShowMenu('hidden')
-        setMarginPixel(0)
+        setShowMenu('block')
       } else {
         setShowMenuDesktop(false)
-        setShowMenu('block')
-        setMarginPixel(295)
+        setShowMenu('hidden')
       }
     } else {
       setShowPage(val)
@@ -41,12 +37,27 @@ function App() {
       <div className={`fixed top-0 lg:z-0 z-20 ${ showMenu }`}>
         <NavigationMenu onEvent={ hideMenu } />
       </div>
-      <div className={`fixed w-full top-0 min-[1224px]:ml-[${marginPixel}px] ml-0 min-[1224px]:pr-[${marginPixel}px] pr-0 z-10 ${ showPage }`}>
-        <Header onEvent={ hidePage }  />
-      </div>
-      <div className={`min-[1224px]:ml-[${marginPixel}px] ml-0 ${ showPage }`}>
-        <Home />
-      </div>
+      {
+        !showMenuDesktop ? (
+          <div> 
+            <div className={`fixed w-full top-0 min-[1224px]:ml-[0px] ml-0 min-[1224px]:pr-[0px] pr-0 z-10 ${ showPage }`} >
+              <Header onEvent={ hidePage } />
+            </div>
+            <div className={`min-[1224px]:ml-[0px] ml-0 ${ showPage }`}>
+              <Home />
+            </div>
+          </div>
+        ): (
+          <div>
+            <div className={`fixed w-full top-0 min-[1224px]:ml-[295px] ml-0 min-[1224px]:pr-[295px] pr-0 z-10 ${ showPage }`}>
+              <Header onEvent={ hidePage }  />
+            </div>
+            <div className={`min-[1224px]:ml-[295px] ml-0 ${ showPage }`}>
+              <Home />
+            </div>
+          </div>
+        )
+      }
     </div>
   )
 }
